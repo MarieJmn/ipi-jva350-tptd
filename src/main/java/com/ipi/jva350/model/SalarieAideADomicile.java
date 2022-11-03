@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 public class SalarieAideADomicile {
 
-    public static final float congesPaysAcquisParMois = 2.5f;
+    public static final float CONGESPAYESACQUISPARMOIS = 2.5f;
 
 
     @Id
@@ -20,7 +20,7 @@ public class SalarieAideADomicile {
 
     private String nom;
 
-    public static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<DayOfWeek>();
+    protected static final List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
 
         static {
         joursHabituellementTravailles.add(DayOfWeek.MONDAY);
@@ -39,7 +39,7 @@ public class SalarieAideADomicile {
     /** en année N sur l'acquis N-1 */
     @Convert(converter = LinkedHashSetStringConverter.class)
     @Column
-    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<LocalDate>();
+    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<>();
     private double joursTravaillesAnneeNMoins1= 0;
     private double congesPayesAcquisAnneeNMoins1= 0;
     private double congesPayesPrisAnneeNMoins1= 0;
@@ -47,8 +47,7 @@ public class SalarieAideADomicile {
     public SalarieAideADomicile() {
     }
 
-    public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
-                                //LinkedHashSet<LocalDate> congesPayesPris,
+/*    public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
                                 double joursTravaillesAnneeN, double congesPayesAcquisAnneeN,
                                 double joursTravaillesAnneeNMoins1, double congesPayesAcquisAnneeNMoins1, double congesPayesPrisAnneeNMoins1) {
         this.nom = nom;
@@ -60,6 +59,20 @@ public class SalarieAideADomicile {
         this.joursTravaillesAnneeN = joursTravaillesAnneeN;
         this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
         //this.congesPayesPris = congesPayesPris;
+    }*/
+        public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
+                                double joursTravaillesAnneeN, double joursTravaillesAnneeNMoins1) {
+        this.nom = nom;
+        this.moisDebutContrat = moisDebutContrat;
+        this.moisEnCours = moisEnCours;
+        this.joursTravaillesAnneeNMoins1 = joursTravaillesAnneeNMoins1;
+        this.joursTravaillesAnneeN = joursTravaillesAnneeN;
+    }
+    public void SalarieAideADomicileConge(double congesPayesAcquisAnneeN, double congesPayesAcquisAnneeNMoins1,
+                                          double congesPayesPrisAnneeNMoins1){
+        this.congesPayesAcquisAnneeNMoins1 = congesPayesAcquisAnneeNMoins1;
+        this.congesPayesPrisAnneeNMoins1 = congesPayesPrisAnneeNMoins1;
+        this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
     }
 
     /**
@@ -174,15 +187,6 @@ public class SalarieAideADomicile {
     public double getCongesPayesRestantAnneeNMoins1() {
         return this.congesPayesAcquisAnneeNMoins1 - this.getCongesPayesPrisAnneeNMoins1();
     }
-    /*
-    public double getCongesPayesRestantAnneeNMoins1() {
-        return congesPayesRestantAnneeNMoins1;
-    }
-
-    public void setCongesPayesRestantAnneeNMoins1(double congesPayesRestantAnneeNMoins1) {
-        this.congesPayesRestantAnneeNMoins1 = congesPayesRestantAnneeNMoins1;
-    }
-    */
 
     public double getCongesPayesAcquisAnneeNMoins1() {
         return congesPayesAcquisAnneeNMoins1;
