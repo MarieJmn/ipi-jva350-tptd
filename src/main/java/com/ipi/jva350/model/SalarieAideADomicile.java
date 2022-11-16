@@ -47,7 +47,7 @@ public class SalarieAideADomicile {
     public SalarieAideADomicile() {
     }
 
-/*    public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
+    public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
                                 double joursTravaillesAnneeN, double congesPayesAcquisAnneeN,
                                 double joursTravaillesAnneeNMoins1, double congesPayesAcquisAnneeNMoins1, double congesPayesPrisAnneeNMoins1) {
         this.nom = nom;
@@ -59,7 +59,8 @@ public class SalarieAideADomicile {
         this.joursTravaillesAnneeN = joursTravaillesAnneeN;
         this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
         //this.congesPayesPris = congesPayesPris;
-    }*/
+    }
+/*
         public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
                                 double joursTravaillesAnneeN, double joursTravaillesAnneeNMoins1) {
         this.nom = nom;
@@ -74,6 +75,7 @@ public class SalarieAideADomicile {
         this.congesPayesPrisAnneeNMoins1 = congesPayesPrisAnneeNMoins1;
         this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
     }
+*/
 
     /**
      * D'après https://femme-de-menage.ooreka.fr/comprendre/conges-payes-femme-de-menage :
@@ -83,7 +85,7 @@ public class SalarieAideADomicile {
      * @return
      */
     public boolean aLegalementDroitADesCongesPayes() {
-        return this.getJoursTravaillesAnneeNMoins1() > 10;
+        return this.getJoursTravaillesAnneeNMoins1() >= 10;
     }
 
     /**
