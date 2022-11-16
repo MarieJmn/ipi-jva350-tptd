@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
 class SalarieAideADomicileTest {
+/*
 
     @Test
     void aLegalementDroitADesCongesPayesNonInitialise() {
@@ -81,6 +82,7 @@ class SalarieAideADomicileTest {
         expected.add(LocalDate.parse("2022-07-02"));
         Assertions.assertEquals(expected, res);
     }
+*/
 
 // Tests paramétrés
     @ParameterizedTest(name = "entre {0} et {1}, nb de expectedNbJoursDeCongesDecomptes {2}")
