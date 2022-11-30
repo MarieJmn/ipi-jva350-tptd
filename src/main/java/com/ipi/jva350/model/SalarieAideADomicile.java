@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 public class SalarieAideADomicile {
 
-    public static final float CONGESPAYESACQUISPARMOIS = 2.5f;
+    public static float CONGES_PAYES_ACQUIS_PAR_MOIS = 2.5f;
 
 
     @Id
@@ -20,15 +20,15 @@ public class SalarieAideADomicile {
 
     private String nom;
 
-    protected static final List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
+    public static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<DayOfWeek>();
 
-        static {
+    static {
         joursHabituellementTravailles.add(DayOfWeek.MONDAY);
         joursHabituellementTravailles.add(DayOfWeek.TUESDAY);
         joursHabituellementTravailles.add(DayOfWeek.WEDNESDAY);
         joursHabituellementTravailles.add(DayOfWeek.THURSDAY);
         joursHabituellementTravailles.add(DayOfWeek.FRIDAY);
-        }
+    }
 
     private LocalDate moisEnCours;
     private LocalDate moisDebutContrat;
@@ -39,7 +39,7 @@ public class SalarieAideADomicile {
     /** en année N sur l'acquis N-1 */
     @Convert(converter = LinkedHashSetStringConverter.class)
     @Column
-    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<>();
+    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<LocalDate>();
     private double joursTravaillesAnneeNMoins1= 0;
     private double congesPayesAcquisAnneeNMoins1= 0;
     private double congesPayesPrisAnneeNMoins1= 0;
@@ -48,6 +48,7 @@ public class SalarieAideADomicile {
     }
 
     public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
+                                //LinkedHashSet<LocalDate> congesPayesPris,
                                 double joursTravaillesAnneeN, double congesPayesAcquisAnneeN,
                                 double joursTravaillesAnneeNMoins1, double congesPayesAcquisAnneeNMoins1, double congesPayesPrisAnneeNMoins1) {
         this.nom = nom;
@@ -60,28 +61,14 @@ public class SalarieAideADomicile {
         this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
         //this.congesPayesPris = congesPayesPris;
     }
-/*
-        public SalarieAideADomicile(String nom, LocalDate moisDebutContrat, LocalDate moisEnCours,
-                                double joursTravaillesAnneeN, double joursTravaillesAnneeNMoins1) {
-        this.nom = nom;
-        this.moisDebutContrat = moisDebutContrat;
-        this.moisEnCours = moisEnCours;
-        this.joursTravaillesAnneeNMoins1 = joursTravaillesAnneeNMoins1;
-        this.joursTravaillesAnneeN = joursTravaillesAnneeN;
-    }
-    public void SalarieAideADomicileConge(double congesPayesAcquisAnneeN, double congesPayesAcquisAnneeNMoins1,
-                                          double congesPayesPrisAnneeNMoins1){
-        this.congesPayesAcquisAnneeNMoins1 = congesPayesAcquisAnneeNMoins1;
-        this.congesPayesPrisAnneeNMoins1 = congesPayesPrisAnneeNMoins1;
-        this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
-    }
-*/
 
     /**
      * D'après https://femme-de-menage.ooreka.fr/comprendre/conges-payes-femme-de-menage :
      * Pour s'ouvrir des droits à congés payés – capitalisation de jours + prise et/ou paiement – l'aide ménagère doit avoir travaillé pour le particulier employeur :
      *     pendant au moins dix jours (pas forcément de suite) ;
-     *     à l'intérieur d'une période de temps – dite de « référence » – allant du 1er juin de l'année N au 31 mai de l'année N + 1.
+     *     à l'intérieur d'une période de temps – dite de « référence » – allant du 1er juin de l'année N au 31 mai de l'année N - 1.
+     * NB. on considère que la précédente ligne est correcte d'un point de vue des spécifications métier
+     * bien que l'originale dans le lien dit "N+1" au lieu de "N-1"
      * @return
      */
     public boolean aLegalementDroitADesCongesPayes() {
@@ -189,6 +176,15 @@ public class SalarieAideADomicile {
     public double getCongesPayesRestantAnneeNMoins1() {
         return this.congesPayesAcquisAnneeNMoins1 - this.getCongesPayesPrisAnneeNMoins1();
     }
+    /*
+    public double getCongesPayesRestantAnneeNMoins1() {
+        return congesPayesRestantAnneeNMoins1;
+    }
+
+    public void setCongesPayesRestantAnneeNMoins1(double congesPayesRestantAnneeNMoins1) {
+        this.congesPayesRestantAnneeNMoins1 = congesPayesRestantAnneeNMoins1;
+    }
+    */
 
     public double getCongesPayesAcquisAnneeNMoins1() {
         return congesPayesAcquisAnneeNMoins1;
